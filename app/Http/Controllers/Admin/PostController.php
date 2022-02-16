@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 Use App\Post;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -36,8 +37,32 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        //validazione dati
+        $request->validate([
+            "title" => 'required|string|max:100',
+            "content" => 'required|string',
+            "published" => 'sometimes|accepted',
+        ]);
+
+        //creazione post
+        $data = $request->all();
+        $newPost = new Post();
+        $newPost->title = $data["title"];
+        $newPost->content = $data["content"];
+        $newPost->published = isset( $data["published"]);
+
+        $slug = Str::of($newPost->title)->slug('-');
+        $count = 1;
+        while(Post::where('slug', $slug)->first()){
+            $slug = Str::of($newPost->title)->slug('-')."-{$count}";
+            $count++;
+        }
+        $newPost->slug = $slug;
+        $newPost->save();
+
+        //redirect al post creato
+        return redirect()->route('posts.show', $newPost->id);
     }
 
     /**
