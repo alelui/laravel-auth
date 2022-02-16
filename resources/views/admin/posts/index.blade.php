@@ -9,6 +9,7 @@
             <th scope="col">Titolo</th>
             <th scope="col">Slug</th>
             <th scope="col">Published</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -18,6 +19,7 @@
                 <td>{{$post->title}}</td>
                 <td>{{$post->slug}}</td>
                 <td>{{$post->published}}</td>
+                <td><button><a href="route{{}}"></a></button></td>
               </tr>
             @endforeach
         </tbody>
