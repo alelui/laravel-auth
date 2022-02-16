@@ -2,6 +2,8 @@
 
 @section('content')
 <div class="container">
+    <a href="{{route('posts.create')}}"><button type="button" class="btn mb-3 btn-success">Aggiungi</button></a>
+
     <table class="table">
         <thead>
           <tr>
@@ -19,7 +21,7 @@
                 <td>{{$post->title}}</td>
                 <td>{{$post->slug}}</td>
                 <td>{{$post->published}}</td>
-                <td><button><a href="route{{}}"></a></button></td>
+                <td><a href="{{route("posts.show", $post->id)}}"><button type="button" class="btn btn-primary">Visualizza</button></a></td>
               </tr>
             @endforeach
         </tbody>
