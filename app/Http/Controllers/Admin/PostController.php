@@ -108,23 +108,23 @@ class PostController extends Controller
         $data = $request->all();
 
         if( $post->titolo != $data["title"] ) {
+
+            $post->title = $data["title"];
             $slug = Str::of($post->title)->slug('-');
+
             $count = 1;
             while(Post::where('slug', $slug)->first()){
                 $slug = Str::of($post->title)->slug('-')."-{$count}";
                 $count++;
             }
             $post->slug = $slug;
-            $post->title = $data["title"];
         }
         
         $post->content = $data["content"];
         $post->published = isset( $data["published"]);
 
-        
-
-        
         $post->save();
+        return view('admin.posts.show', compact("post"));
     }
 
     /**
@@ -133,8 +133,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 }

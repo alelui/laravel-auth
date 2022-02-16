@@ -18,6 +18,11 @@
                 </div>
             </div>
             <a href="{{route('posts.edit', $post->id)}}"><button type="button" class="btn mt-4 btn-dark">Modifica</button></a>
+            <form action="{{route('posts.destroy', $post->id)}}" method="POST">
+                @method('DELETE')
+                @csrf
+                <button type="submit" class="btn mt-3 btn-danger">dev/null</button>
+            </form>
         </div>
     </div>
 </div>
