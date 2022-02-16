@@ -6,7 +6,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2>Nuovo Post</h2>
+                    <h2>Modifica Post N. {{$post->id}}</h2>
+                    <p>Titolo: {{$post->title}}</p>
                 </div>
                 <div class="card-body">
                     <form action="{{route('posts.store')}}" method="POST">
