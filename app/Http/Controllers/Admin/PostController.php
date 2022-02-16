@@ -94,9 +94,37 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        //validazione dati
+        $request->validate([
+            "title" => 'required|string|max:100',
+            "content" => 'required|string',
+            "published" => 'sometimes|accepted',
+        ]);
+        // dd($request->all());
+
+        //aggiornamento post all'interno del DB
+        $data = $request->all();
+
+        if( $post->titolo != $data["title"] ) {
+            $slug = Str::of($post->title)->slug('-');
+            $count = 1;
+            while(Post::where('slug', $slug)->first()){
+                $slug = Str::of($post->title)->slug('-')."-{$count}";
+                $count++;
+            }
+            $post->slug = $slug;
+            $post->title = $data["title"];
+        }
+        
+        $post->content = $data["content"];
+        $post->published = isset( $data["published"]);
+
+        
+
+        
+        $post->save();
     }
 
     /**
